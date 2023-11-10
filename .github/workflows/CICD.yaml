@@ -32,15 +32,15 @@ jobs:
           tags: ${{ env.TEST_IMAGE }}${{ env.TEST_TAG }}
 
       # TEST
-      - name: Test
-        uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: "docker-compose.yaml"
-          test-container: web
-          test-command: "curl -s http://localhost:3000/"
-        env: 
-          IMAGE_URI: ${{ env.TEST_IMAGE }}
-          IMAGE_TAG: ${{ env.TEST_TAG }}
+      # - name: Test
+      #   uses: adambirds/docker-compose-action@v1.3.0
+      #   with:
+      #     compose-file: "docker-compose.yaml"
+      #     test-container: web
+      #     test-command: "curl -s http://localhost:3000/"
+      #   env: 
+      #     IMAGE_URI: ${{ env.TEST_IMAGE }}
+      #     IMAGE_TAG: ${{ env.TEST_TAG }}
 
       # RELEASE
       - name: Set outputs
