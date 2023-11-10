@@ -35,7 +35,7 @@ jobs:
       - name: Test
         uses: adambirds/docker-compose-action@v1.3.0
         with:
-          compose-file: ".docker-compose.yml"
+          compose-file: "docker-compose.yaml"
           test-container: web
           test-command: "curl -s http://localhost:3000/"
 
