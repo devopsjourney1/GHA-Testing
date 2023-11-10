@@ -38,7 +38,9 @@ jobs:
           compose-file: "docker-compose.yaml"
           test-container: web
           test-command: "curl -s http://localhost:3000/"
-        env: ${{ env.TEST_IMAGE }}${{ env.TEST_TAG }}
+        env: 
+          IMAGE_URI: ${{ env.TEST_IMAGE }}
+          IMAGE_TAG: ${{ env.TEST_TAG }}
 
       # RELEASE
       - name: Set outputs
