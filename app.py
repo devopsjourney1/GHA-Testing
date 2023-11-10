@@ -35,15 +35,15 @@ def hello_world():
     hit_count = get_hit_count()
     # Renders templates/index.html with the variables
     return render_template(
-        "index.html", 
+        "index.html",
         title=title,
         custom_text=custom_text,
         hit_count=hit_count,
         version=version,
         hostname=hostname,
-        background_color=background_color, 
-        text_color=text_color
+        background_color=background_color,
+        text_color=text_color,
     )
 
 if __name__ == "__main__":
-	app.run(host="0.0.0.0", port=3000)
+    app.run(host="0.0.0.0", port=3000)
