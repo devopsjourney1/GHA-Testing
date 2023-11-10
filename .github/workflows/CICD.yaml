@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 env:
-  TEST_TAG: local/app:test
-  TEST_CONTAINER_NAME: test_container
+  TEST_IMAGE: local/app
+  TEST_TAG: test
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           load: true
-          tags: ${{ env.TEST_TAG }}
+          tags: ${{ env.TEST_IMAGE }}${{ env.TEST_TAG }}
 
       # TEST
       - name: Test
@@ -38,6 +38,7 @@ jobs:
           compose-file: "docker-compose.yaml"
           test-container: web
           test-command: "curl -s http://localhost:3000/"
+        env: ${{ env.TEST_IMAGE }}${{ env.TEST_TAG }}
 
       # RELEASE
       - name: Set outputs

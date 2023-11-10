@@ -1,7 +1,7 @@
 ---
 services:
   web:
-    build: ./Dockerfile
+    image: "$IMAGE_URI:$IMAGE_TAG"
     ports:
       - "3000:3000"
     environment:
