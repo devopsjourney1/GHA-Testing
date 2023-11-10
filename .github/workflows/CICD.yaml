@@ -37,7 +37,7 @@ jobs:
           sleep 10
           docker ps -a
           docker logs test_container
-          curl -s http://127.0.0.1:3000
+          curl -s http://test_container:3000
           docker stop test_container && docker rm test_container
 
       # RELEASE
