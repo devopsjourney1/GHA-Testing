@@ -33,12 +33,11 @@ jobs:
 
       # TEST
       - name: Test
-        run: |
-          docker run -d --name ${{ env.TEST_CONTAINER_NAME }} --rm ${{ env.TEST_TAG }}
-          sleep 10
-          docker ps -a
-          docker exec ${{ env.TEST_CONTAINER_NAME }} curl http://127.0.0.1:3000
-          docker stop ${{ env.TEST_CONTAINER_NAME }} && docker rm ${{ env.TEST_CONTAINER_NAME }}
+        uses: adambirds/docker-compose-action@v1.3.0
+        with:
+          compose-file: ".docker-compose.yml"
+          test-container: web
+          test-command: "curl -s http://localhost:3000/"
 
       # RELEASE
       - name: Set outputs
