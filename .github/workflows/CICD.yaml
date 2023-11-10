@@ -1,37 +1,51 @@
 ---
-    name: CICD Docker Build and Push
-    on:
-      push: 
-      workflow_dispatch:
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-        steps:
-          -
-            name: Checkout
-            uses: actions/checkout@v4
-          -
-            name: Login to Docker Hub
-            uses: docker/login-action@v3
-            with:
-              username: ${{ vars.DOCKERHUB_USERNAME }}
-              password: ${{ secrets.DOCKERHUB_TOKEN }}
-          -
-            name: Set up Docker Buildx
-            uses: docker/setup-buildx-action@v3
-          -
-            name: Set outputs
-            id: myoutputs
-            run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          -
-            name: Build and push
-            # https://github.com/docker/build-push-action
-            uses: docker/build-push-action@v5
-            with:
-              context: .
-              platforms: linux/amd64,linux/arm64
-              file: ./Dockerfile
-              push: true
-              tags: |
-                ${{ vars.DOCKERHUB_USERNAME }}/test:latest
-                ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ steps.myoutputs.outputs.sha_short }}
+name: CICD Docker Build and Push
+on:
+  push: 
+  workflow_dispatch:
+
+env:
+  TEST_TAG: local/app:test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+      - name: Test
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}  
+
+      - name: Set outputs
+        id: myoutputs
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        # https://github.com/docker/build-push-action
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/test:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/test:production
+            ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ steps.myoutputs.outputs.sha_short }}
