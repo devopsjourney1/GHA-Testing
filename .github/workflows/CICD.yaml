@@ -6,6 +6,7 @@ on:
 
 env:
   TEST_TAG: local/app:test
+  TEST_CONTAINER_NAME: test_container
 
 jobs:
   build:
@@ -33,10 +34,11 @@ jobs:
       # TEST
       - name: Test
         run: |
-          docker run -d --name test_container -p 3000:3000 --rm ${{ env.TEST_TAG }}
+          docker run -d --name ${{ env.TEST_CONTAINER_NAME }} --rm ${{ env.TEST_TAG }}
           sleep 10
           docker ps -a
-          docker logs test_container
+          docker exec ${{ env.TEST_CONTAINER_NAME }} curl http://127.0.0.1:3000
+          docker stop ${{ env.TEST_CONTAINER_NAME }} && docker rm ${{ env.TEST_CONTAINER_NAME }}
 
       # RELEASE
       - name: Set outputs
