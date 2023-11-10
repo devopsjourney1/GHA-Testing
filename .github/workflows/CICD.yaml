@@ -30,4 +30,4 @@
               push: true
               tags: |
                 ${{ vars.DOCKERHUB_USERNAME }}/test:latest
-                ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ github.sha }}
+                ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ github.sha }}:7
