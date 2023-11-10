@@ -1,7 +1,7 @@
 ---
 services:
   web:
-    build: ./Dockerfile-alpine
+    build: ./Dockerfile
     ports:
       - "3000:3000"
     environment:
