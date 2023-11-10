@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # SOURCE
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -23,16 +24,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      # BUILD
       - name: Build and export to Docker
         uses: docker/build-push-action@v5
         with:
           context: .
           load: true
           tags: ${{ env.TEST_TAG }}
-      - name: Test
-        run: |
-          docker run --rm ${{ env.TEST_TAG }}  
 
+      # TEST
+      - name: Test
+        run: docker run --rm ${{ env.TEST_TAG }}
+
+      # RELEASE
       - name: Set outputs
         id: myoutputs
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
