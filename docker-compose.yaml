@@ -1,0 +1,18 @@
+services:
+  web:
+    build: ./Dockerfile-alpine
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKGROUND_COLOR=#b6f5b6
+      - APP_NAME=My Dockerized App
+      - CUSTOM_TEXT=This was deployed via docker compose!
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - redis-data:/data
+    
+volumes:
+  redis-data:
