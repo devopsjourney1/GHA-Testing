@@ -9,11 +9,11 @@ app = Flask(__name__)
 cache = redis.Redis(host="redis", port=6379)
 
 # Get environment variables, or set defaults
-background_color    = os.environ.get('BACKGROUND_COLOR', "#a8d1df")
-custom_text         = os.environ.get('CUSTOM_TEXT', "Hello World!")
-text_color          = os.environ.get('TEXT_COLOR', "black")
-title               = os.environ.get('APP_NAME', "Dockerized Flask App")
-version             = os.environ.get('APP_VERSION', "v1.0.0")
+background_color = os.environ.get('BACKGROUND_COLOR', "#a8d1df")
+custom_text = os.environ.get('CUSTOM_TEXT', "Hello World!")
+text_color = os.environ.get('TEXT_COLOR', "black")
+title = os.environ.get('APP_NAME', "Dockerized Flask App")
+version = os.environ.get('APP_VERSION', "v1.0.0")
 
 
 def get_hit_count():
@@ -44,6 +44,7 @@ def hello_world():
         background_color=background_color,
         text_color=text_color,
     )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
