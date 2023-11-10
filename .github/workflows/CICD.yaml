@@ -1,6 +1,7 @@
 ---
     name: CICD Docker Build and Push
-    on: 
+    on:
+      push: 
       workflow_dispatch:
     jobs:
       build:
@@ -13,7 +14,7 @@
             name: Login to Docker Hub
             uses: docker/login-action@v3
             with:
-              username: ${{ env.DOCKERHUB_USERNAME }}
+              username: ${{ vars.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
           -
             name: Set up Docker Buildx
@@ -28,5 +29,5 @@
               file: ./Dockerfile
               push: true
               tags: |
-                ${{ env.DOCKERHUB_USERNAME }}/test:latest
+                ${{ vars.DOCKERHUB_USERNAME }}/test:latest
                 ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ github.sha }}
