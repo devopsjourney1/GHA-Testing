@@ -13,6 +13,8 @@ jobs:
       - name: Run Super-Linter
         uses: github/super-linter@v4
         env:
+          # Setup the Rules based on your Needs:
+          # https://github.com/super-linter/super-linter/tree/main#environment-variables
           LINTER_RULES_PATH: /
           YAML_CONFIG_FILE: .yaml-lint.yml
           VALIDATE_PYTHON_BLACK: false
